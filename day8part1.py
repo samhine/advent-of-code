@@ -15,6 +15,7 @@ for item in mylist:
     if item[4] not in list(vari):
         vari.update({item[4]:0})
 
+    # Extremely dirty
     exp = 'vari[item[4]]'+item[5]+'int(item[6])'
     b = eval(exp)
 
