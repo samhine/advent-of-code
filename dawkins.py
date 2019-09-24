@@ -1,4 +1,5 @@
 import random, copy
+from fuzzywuzzy import fuzz
 
 alph = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', ' ']
 
@@ -11,12 +12,15 @@ def scorer(s, target):
 
     return score
 
+leven = True
+
 # Generate 28 random chars
 phr = [alph[random.randint(0,len(alph)-1)] for i in range(28)]
+if leven: phr = [' ']
 print(''.join(phr), 0)
 
 score = 0
-while score<28:
+while score<100:
     # Repeat this 100 times
     phr_book = [copy.copy(phr) for i in range(100)]
 
@@ -26,9 +30,20 @@ while score<28:
     for i, p in enumerate(phr_book):
         # Iterate over the characters in this phrase
         for j, s in enumerate(p):
-            if random.random()<0.05:
-                phr_book[i][j] = alph[random.randint(0,len(alph)-1)]
-        scores.append(scorer(p, list("METHINKS IT IS LIKE A WEASEL")))
+            if leven:
+                if random.random()<0.05:
+                    phr_book[i][j] = alph[random.randint(0,len(alph)-1)]
+                elif random.random()<0.05:
+                    phr_book[i].pop(j)
+                elif random.random()<0.05:
+                    phr_book[i].insert(j, alph[random.randint(0,len(alph)-1)])
+            else:
+                if random.random()<0.05:
+                    phr_book[i][j] = alph[random.randint(0,len(alph)-1)]
+        if leven:
+            scores.append(fuzz.ratio(''.join(p), "METHINKS IT IS LIKE A WEASEL"))
+        else:
+            scores.append(scorer(p, list("METHINKS IT IS LIKE A WEASEL")))
 
     # Pick best score
     score = max(scores)
@@ -36,4 +51,4 @@ while score<28:
     phr = phr_book[phr_idx]
     print(''.join(phr), score)
 
-print(phr)
+print(''.join(phr), score)
