@@ -2,6 +2,9 @@ import random, copy
 from fuzzywuzzy import fuzz
 
 alph = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', ' ']
+match_string = "METHINKS IT IS LIKE A WEASEL"
+
+leven = True
 
 def scorer(s, target):
     # Assumes same length 
@@ -12,10 +15,8 @@ def scorer(s, target):
 
     return score
 
-leven = True
-
 # Generate 28 random chars
-phr = [alph[random.randint(0,len(alph)-1)] for i in range(28)]
+phr = [alph[random.randint(0,len(alph)-1)] for i in range(len(match_string))]
 if leven: phr = [' ']
 print(''.join(phr), 0)
 
@@ -41,9 +42,9 @@ while score<100:
                 if random.random()<0.05:
                     phr_book[i][j] = alph[random.randint(0,len(alph)-1)]
         if leven:
-            scores.append(fuzz.ratio(''.join(p), "METHINKS IT IS LIKE A WEASEL"))
+            scores.append(fuzz.ratio(''.join(p), match_string))
         else:
-            scores.append(scorer(p, list("METHINKS IT IS LIKE A WEASEL")))
+            scores.append(scorer(p, match_string))
 
     # Pick best score
     score = max(scores)

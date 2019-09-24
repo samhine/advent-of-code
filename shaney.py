@@ -4,7 +4,7 @@ import random
 with open('shaney_training.txt', 'r') as file:
     data = file.read()
 
-# We don't really want to limit our output because of grammer
+# We don't really want to limit our output because of grammar
 data = data.lower()
 
 # Keys are words, value is a list of following words from that word, which are selected uniformly within the MC
