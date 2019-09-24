@@ -28,7 +28,7 @@ txt_len = 200
 
 start_idx = random.randint(0,len(data_split)-context)
 words = data_split[start_idx:start_idx+context]
-txt = ''.join(words)
+txt = ' '.join(words)
 
 for c in range(txt_len):
     next_word = random.choice(links[str(words)])
