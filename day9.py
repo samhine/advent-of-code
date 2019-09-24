@@ -14,6 +14,7 @@ gar_stack = []
 scores = []
 
 gc = 0
+cancels = 0
 lastchar = ''
 for char in data:
     if lastchar=='!':
@@ -29,7 +30,10 @@ for char in data:
     elif char=='>':
         gar_stack.pop()
         gc += 1
+    elif gar_stack and char!='!':
+        cancels += 1
 
     lastchar = copy.copy(char)
 
 print(sum(scores))
+print(cancels)
